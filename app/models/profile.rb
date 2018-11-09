@@ -51,7 +51,6 @@ class Profile < ApplicationRecord
     validates :address, format: { with: /\A[A-Za-z\d\s\.,']+\z/ },
                         if: proc { |a| a.address.present? }
   
-    scope :kept, -> { joins(:user).where(users: { discarded_at: nil }) }
     before_validation :squish_spaces
   
     def full_name

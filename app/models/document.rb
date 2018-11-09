@@ -3,9 +3,7 @@ class Document < ApplicationRecord
   
     TYPES = ['Passport', 'Identity card', 'Driver license', 'Utility Bill'].freeze
     STATES = %w[verified pending rejected].freeze
-  
-    scope :kept, -> { joins(:user).where(users: { discarded_at: nil }) }
-  
+    
     belongs_to :user
     serialize :metadata, JSON
     validates :doc_type, :doc_number, :doc_expire, :upload, presence: true

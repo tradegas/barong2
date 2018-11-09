@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark mb-4">
+  <div class="container">
+    <%= link_to 'Barong Admin', admin_users_path, class: 'navbar-brand' %>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+            <li class="nav-item <%= 'active' if params[:controller].match?(/accounts/) %>">
+              <%= link_to 'Users', admin_users_path, class: 'nav-link' %>
+            </li>
+      </ul>
+      <%- #A link to destroy the session -%>
+      <%= link_to 'Sign out', admin_users_path , method: :get %>
+  </div>
+</nav>

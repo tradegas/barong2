@@ -11,13 +11,15 @@ gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+gem 'bootstrap',    '>= 4.1.2'
+gem 'bootstrap-datepicker-rails'
+gem 'jquery-rails', '~> 4.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
 gem 'peatio', '~> 0.4.4'
-
 # REST-like API framework for Ruby
 gem 'grape',        '~> 1.0'
 gem 'grape-entity', '~> 0.7.1'
@@ -43,7 +45,7 @@ gem 'carrierwave', '~> 1.2.2'
 
 # Use gem to verify recatpcha on server side
 gem 'recaptcha'
-
+gem 'kaminari'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

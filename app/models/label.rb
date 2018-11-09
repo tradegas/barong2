@@ -15,8 +15,6 @@ class Label < ApplicationRecord
     end
   end
 
-  scope :kept, -> { joins(:user).where(users: { discarded_at: nil }) }
-
   scope :with_private_scope, -> { where(scope: 'private') }
 
   validates :user_id, :key, :value, :scope, presence: true
