@@ -28,7 +28,7 @@ module Admin
         ## TODO: Implement discard method
         @user.destroy
         respond_to do |format|
-          format.html { redirect_to admin_users_url, notice: 'Account is marked as discarded' }
+          format.html { redirect_to admin_users_url, notice: 'User is marked as destroyed' }
         end
       end
   

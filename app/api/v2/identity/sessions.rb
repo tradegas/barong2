@@ -73,7 +73,7 @@ module API::V2
           params do
             requires :path
           end
-          head '*path' do
+          route ['GET','POST','HEAD','PUT'], '*path' do
             # TODO: check for Authorization header
             # 'X-Auth-Apikey': apiKey,
             # 'X-Auth-Nounce': payload,

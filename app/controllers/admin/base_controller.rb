@@ -14,6 +14,9 @@ module Admin
       def authenticate_admin
         if request.headers['Authorization']
           token = request.headers['Authorization']
+          unless token.include?('Bearer')
+            token = 'Bearer ' + token
+          end
           payload = authenticate!(token)
           is_admin(payload)
         else
@@ -26,10 +29,6 @@ module Admin
           raise(Peatio::Auth::Error, "You're not an admin, so not allowed to access this resource")
         end
       end
-      
-      
-
-
 
     end
   end
