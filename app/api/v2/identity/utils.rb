@@ -23,6 +23,11 @@ module API::V2
         error!(captcha_error_message, error_statuses.last)
       end
 
+      def failed_activity(options)
+      end
+
+      def sucessfull_activity(options)
+      end
     end
   end
 end

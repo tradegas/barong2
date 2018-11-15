@@ -46,6 +46,9 @@ module API::V2
             # user.add_failed_attempt
             error!('OTP code is invalid', 403)
           end
+
+          session[:uid] = user.uid
+          return status 200 
         end
 
         desc 'Destroy current session',
