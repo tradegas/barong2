@@ -73,17 +73,18 @@ module API::V2
           params do
             requires :path
           end
-          head '*path' do
-            # TODO: check for Authorization header
-            # 'X-Auth-Apikey': apiKey,
-            # 'X-Auth-Nounce': payload,
-            # 'X-Auth-Signature': signature
+          route ['GET','POST','HEAD','PUT'], '*path' do
 
-            error!('Invalid Session', 401) unless session[:uid]
-            user = User.find_by!(uid: session[:uid])
-            header 'Authorization', codec.encode(user.as_payload)
+            unless apiKey_headers?
+              error!('Invalid Session', 401) unless session[:uid]
+              user = User.find_by!(uid: session[:uid])
+              header 'Authorization', codec.encode(user.as_payload)
+              return status(200)
+            end
 
-            status(200)
+            apiKey = APIKeysVerifier.new(apiKey_params)
+            # generate JWT for API KEY
+            status(200) if apiKey.verify_hmac_payload?
           end
         end
       end

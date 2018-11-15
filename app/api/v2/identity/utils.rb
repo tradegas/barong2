@@ -23,6 +23,24 @@ module API::V2
         error!(captcha_error_message, error_statuses.last)
       end
 
+      def apiKey_headers?
+        return false if headers['X-Auth-Apikey'].nil? &&
+                        headers['X-Auth-Nounce'].nil? &&
+                        headers['X-Auth-Signature'].nil?
+        error!('Request contains invalid or blank api key headers!') unless headers['X-Auth-Apikey'] &&
+                                                                            headers['X-Auth-Nounce'] &&
+                                                                            headers['X-Auth-Signature']
+        true
+      end
+
+      def apiKey_params
+        params = {}
+        params.merge(
+          'kid': headers['X-Auth-Apikey'],
+          'nounce': headers['X-Auth-Nounce'],
+          'signature':  headers['X-Auth-Signature']
+        )
+      end
     end
   end
 end
