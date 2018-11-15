@@ -28,63 +28,40 @@ module API::V2
           error!(user.errors.full_messages, 422) unless user.save
         end
 
+        desc 'Confirms an account',
+             success: { code: 201, message: 'Confirms an account' },
+             failure: [
+               { code: 400, message: 'Required params are missing' },
+               { code: 422, message: 'Validation errors' }
+             ]
+        params do
+          requires :confirmation_token, type: String,
+                                        desc: 'Token from email',
+                                        allow_blank: false
+        end
+        post '/confirm' do
+          # validate JWT
+          if user.errors.any?
+            error!(user.errors.full_messages.to_sentence, 422)
+          end
+        end
 
-        # FIXME
-        # desc 'Confirms an account',
-        # success: { code: 201, message: 'Confirms an account' },
-        # failure: [
-        #   { code: 400, message: 'Required params are missing' },
-        #   { code: 422, message: 'Validation errors' }
-        # ]
-        # params do
-        #   requires :confirmation_token, type: String,
-        #                                 desc: 'Confirmation jwt token',
-        #                                 allow_blank: false
-        # end
-        # post '/confirm' do
-        #   WIP : confirmation logic
-        # end
+        desc 'Send confirmations instructions',
+             security: [{ "BearerToken": [] }]
+        params do
+          requires :email, type: String,
+                           desc: 'Account email',
+                           allow_blank: false
+        end
+        post '/generate_confirmation_instructions' do
+          # generate JWT
+          if user.errors.any?
+            error!(user.errors.full_messages.to_sentence, 422)
+          end
 
-        # desc 'Unlocks an account',
-        # success: { code: 201, message: 'Unlocks an account' },
-        # failure: [
-        #   { code: 400, message: 'Required params are missing' },
-        #   { code: 422, message: 'Validation errors' }
-        # ]
-        # params do
-        #   requires :unlock_token, type: String,
-        #                           desc: 'Unlock jwt token',
-        #                           allow_blank: false
-        # end
-        # post '/unlock' do
-        #   WIP : unlock logic
-        # end
+          { message: 'Confirmation instructions was sent successfully' }
+        end
 
-        # desc 'Sets new account password',
-        #      failure: [
-        #        { code: 400, message: 'Required params are empty' },
-        #        { code: 404, message: 'Record is not found' },
-        #        { code: 422, message: 'Validation errors' }
-        #      ]
-        # params do
-        #   requires :reset_password_token, type: String,
-        #                                   desc: 'Token from email',
-        #                                   allow_blank: false
-        #   requires :password, type: String,
-        #                       desc: 'User password',
-        #                       allow_blank: false
-        # end
-        # put '/reset_password' do
-        #   required_params = declared(params)
-        #                     .merge(password_confirmation: params[:password])
-
-        #   user = User.reset_password_by_token(required_params)
-        #   raise ActiveRecord::RecordNotFound unless user.persisted?
-
-        #   if user.errors.any?
-        #     error!(user.errors.full_messages.to_sentence, 422)
-        #   end
-        # end
       end
     end
   end
